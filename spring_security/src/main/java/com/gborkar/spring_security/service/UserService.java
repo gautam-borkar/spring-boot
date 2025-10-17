@@ -10,11 +10,11 @@ import com.gborkar.spring_security.domain.Role;
 @Service
 public interface UserService {
 
-  void saveUser(AppUser user);
+  Long saveUser(AppUser user);
 
-  void saveRole(Role role);
+  Long saveRole(Role role);
 
-  void addRoleToUser(String user, String roleName);
+  void addRoleToUser(String user, String role);
 
   List<AppUser> getUsers();
 

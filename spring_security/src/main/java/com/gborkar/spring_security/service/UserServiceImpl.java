@@ -19,15 +19,15 @@ public class UserServiceImpl implements UserService {
   private RoleRepository roleRepo;
 
   @Override
-  public void saveUser(AppUser user) {
+  public Long saveUser(AppUser user) {
     log.info("Saving user {} to the database", user.getUsername());
-    userRepo.save(user);
+    return userRepo.save(user).getId();
   }
 
   @Override
-  public void saveRole(Role role) {
+  public Long saveRole(Role role) {
     log.info("Saving role {} to the database", role.getName());
-    roleRepo.save(role);
+    return roleRepo.save(role).getId();
   }
 
   @Override
@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService {
     AppUser user = userRepo.findByUsername(username);
     Role role = roleRepo.findByName(roleName);
     user.getRoles().add(role);
+    userRepo.save(user);
   }
 
   @Override
