@@ -28,6 +28,6 @@ public class LoginController {
 
     @PostMapping(path = "/login")
     public ResponseEntity<String> login(@RequestBody AppUser user) throws NoSuchAlgorithmException {
-        return ResponseEntity.ok().body(loginService.verifyUser(user));
+        return ResponseEntity.ok().body(loginService.login(user));
     }
 }

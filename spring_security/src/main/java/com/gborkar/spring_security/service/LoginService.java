@@ -22,7 +22,7 @@ public class LoginService {
 
     private final JWTService jwtService;
 
-    public String verifyUser(AppUser user) throws NoSuchAlgorithmException {
+    public String login(AppUser user) throws NoSuchAlgorithmException {
         Authentication auth = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 
