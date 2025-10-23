@@ -59,6 +59,7 @@ public class SecurityConfig {
     }
 
     // In-memory authorization
+    @SuppressWarnings("deprecation")
     public UserDetailsService inMemoryUserDetails() {
         UserDetails user1 = User
                 .withDefaultPasswordEncoder()
