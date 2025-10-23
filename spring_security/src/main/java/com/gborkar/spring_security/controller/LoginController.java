@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gborkar.spring_security.domain.AppUser;
 import com.gborkar.spring_security.service.LoginService;
 
-import io.jsonwebtoken.security.InvalidKeyException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 
@@ -28,7 +27,7 @@ public class LoginController {
     }
 
     @PostMapping(path = "/login")
-    public ResponseEntity<String> login(@RequestBody AppUser user) throws InvalidKeyException, NoSuchAlgorithmException {
+    public ResponseEntity<String> login(@RequestBody AppUser user) throws NoSuchAlgorithmException {
         return ResponseEntity.ok().body(loginService.verifyUser(user));
     }
 }

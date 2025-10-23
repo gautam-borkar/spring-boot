@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.gborkar.spring_security.domain.AppUser;
 
-import io.jsonwebtoken.security.InvalidKeyException;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -23,18 +22,16 @@ public class LoginService {
 
     private final JWTService jwtService;
 
-    public String verifyUser(AppUser user) throws InvalidKeyException, NoSuchAlgorithmException {
+    public String verifyUser(AppUser user) throws NoSuchAlgorithmException {
         Authentication auth = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-        
-        UserDetails userDetails = userService.loadUserByUsername(user.getUsername());
 
         if (auth.isAuthenticated()) {
+            UserDetails userDetails = userService.loadUserByUsername(user.getUsername());
             return jwtService.generateToken(userDetails);
         }
 
         return null;
-
     }
     
 }
