@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping(path = "/api")
 public class UserController {
-  private UserService userService;
+  private final UserService userService;
 
   @GetMapping(path = "/users")
   public ResponseEntity<List<AppUser>> getUsers() {
@@ -46,5 +46,4 @@ public class UserController {
     userService.addRoleToUser(username, roleName);
     return ResponseEntity.ok().build();
   }
-
 }
