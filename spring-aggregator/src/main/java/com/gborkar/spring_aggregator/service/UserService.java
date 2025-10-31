@@ -14,12 +14,16 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UserService {
 
-    public final RestClient restClient;
+    private final RestClient restClient;
     
-    public List<User> getUsers() {
+    public List<User> listAllUsers() {
         return this.restClient.get().uri("/users").retrieve().body(new ParameterizedTypeReference<List<User>>() {
         });
-        
+
+    }
+    
+    public User getUser(long userId) {
+        return this.restClient.get().uri("/users/" + userId).retrieve().body(User.class);
     }
     
 }

@@ -1,19 +1,19 @@
 package com.gborkar.spring_aggregator.model;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @ToString
-public class Post {
-    private Integer userId;
-    private Integer id;
-    private String title;
-    private String body;
+public class UserPost {
+    
+    private User user;
+    private List<Post> posts;
+
 }

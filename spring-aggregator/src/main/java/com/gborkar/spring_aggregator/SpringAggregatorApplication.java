@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestClient;
 
-import com.gborkar.spring_aggregator.service.UserService;
+import com.gborkar.spring_aggregator.service.UserPostAgregatorService;
 
 @SpringBootApplication
 public class SpringAggregatorApplication {
@@ -21,10 +21,9 @@ public class SpringAggregatorApplication {
     }
 
     @Bean
-    CommandLineRunner run(UserService userService) {
+    CommandLineRunner run(UserPostAgregatorService userPostAgrregatorService) {
         return args -> {
-            System.out.println(userService.getUsers());
+            System.out.println("User Posts: " + userPostAgrregatorService.getUserAndPostByUserId(1));
         };
     }
-
 }

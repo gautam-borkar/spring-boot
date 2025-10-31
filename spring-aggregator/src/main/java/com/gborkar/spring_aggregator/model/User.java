@@ -16,6 +16,7 @@ public class User {
     @NoArgsConstructor
     @Getter
     @Setter
+    @ToString
     public static class Geo {
         private String lat;
         private String lng;
@@ -25,6 +26,7 @@ public class User {
     @NoArgsConstructor
     @Getter
     @Setter
+    @ToString
     public static class Address {
         private String street;
         private String suite;
@@ -37,6 +39,7 @@ public class User {
     @NoArgsConstructor
     @Getter
     @Setter
+    @ToString
     public static class Company {
         private String name;
         private String catchPhrase;
