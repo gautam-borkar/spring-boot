@@ -1,10 +1,8 @@
 package com.gborkar.spring_aggregator.service;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import org.springframework.stereotype.Service;
 
@@ -18,20 +16,29 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserPostAgregatorService {
     
-    private ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-    
     private final UserService userService;
 
     private final PostService postService;
 
-    public UserPost getUserAndPostByUserId(long userId) throws InterruptedException, ExecutionException {
-        Future<User> userFuture = executorService.submit(() -> userService.getUser(userId));
-        Future<List<Post>> postFuture = executorService.submit(() -> postService.getPostsByUserId(userId));
+    public UserPost retrieveUserAndPostByUserIdByCompletableFuture(long userId)
+            throws InterruptedException, ExecutionException {
+        CompletableFuture<User> cfUser = userService.getUser(userId);
+        CompletableFuture<List<Post>> cfUserPost = postService.getPostsByUserId(userId);
 
-        User user = userFuture.get();
-        List<Post> userPosts = postFuture.get();
-
-        return new UserPost(user, userPosts);
+        return CompletableFuture.allOf(cfUser, cfUserPost).whenComplete((success, e) -> {
+            if (e != null) {
+                e.printStackTrace();
+            }
+        })
+                .thenApply((v) -> new UserPost(cfUser.join(), cfUserPost.join())).join();
     }
 
+    public UserPost retrieveUserAndPostByUserIdByVirtualThread(long userId)
+            throws InterruptedException, ExecutionException {
+        CompletableFuture<User> cfUser = userService.getUser(userId);
+        CompletableFuture<List<Post>> cfPosts = postService.getPostsByUserId(userId);
+
+        return CompletableFuture.allOf(cfUser, cfPosts).thenApply((v) -> new UserPost(cfUser.join(), cfPosts.join()))
+                .join();
+    }
 }

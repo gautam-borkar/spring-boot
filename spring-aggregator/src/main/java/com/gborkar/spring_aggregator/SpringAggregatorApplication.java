@@ -1,5 +1,8 @@
 package com.gborkar.spring_aggregator;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,7 +26,14 @@ public class SpringAggregatorApplication {
     @Bean
     CommandLineRunner run(UserPostAgregatorService userPostAgrregatorService) {
         return args -> {
-            System.out.println("User Posts: " + userPostAgrregatorService.getUserAndPostByUserId(1));
+            System.out.println(
+                    "User Posts: " + userPostAgrregatorService.retrieveUserAndPostByUserIdByCompletableFuture(1));
         };
     }
+    
+    @Bean(destroyMethod = "shutdown")
+    ExecutorService executorService() {
+        return Executors.newVirtualThreadPerTaskExecutor();
+    }
+
 }
