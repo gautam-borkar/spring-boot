@@ -26,9 +26,12 @@ public class PostService {
         return cfPost;
     }
 
-    public CompletableFuture<List<Post>> getPostsByUserId(long userId) {
-        CompletableFuture<List<Post>> cfPost = CompletableFuture.supplyAsync(() -> this.restClient.get().uri("/users/" + userId + "/posts").retrieve().body(new ParameterizedTypeReference<List<Post>>() {}), vThreadExecutor);
-
+    public CompletableFuture<List<Post>> getPostsByUserId(long userId, int page, int size) {
+        CompletableFuture<List<Post>> cfPost = CompletableFuture.supplyAsync(() -> this.restClient.get().uri(builder -> builder.path(
+                "/users/" + userId + "/posts").queryParam("_page", page).queryParam("_size", size).build(userId))
+                .retrieve().body(new ParameterizedTypeReference<List<Post>>() {
+                }), vThreadExecutor);
+                
         return cfPost;
     }
 }

@@ -33,10 +33,10 @@ public class UserPostAgregatorService {
                 .thenApply((v) -> new UserPost(cfUser.join(), cfUserPost.join())).join();
     }
 
-    public UserPost retrieveUserAndPostByUserIdByVirtualThread(long userId)
+    public UserPost retrieveUserAndPostByUserIdByVirtualThread(long userId, int page, int size)
             throws InterruptedException, ExecutionException {
         CompletableFuture<User> cfUser = userService.getUser(userId);
-        CompletableFuture<List<Post>> cfPosts = postService.getPostsByUserId(userId);
+        CompletableFuture<List<Post>> cfPosts = postService.getPostsByUserId(userId, page, size);
 
         return CompletableFuture.allOf(cfUser, cfPosts).thenApply((v) -> new UserPost(cfUser.join(), cfPosts.join()))
                 .join();
